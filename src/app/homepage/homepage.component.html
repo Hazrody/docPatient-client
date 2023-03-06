@@ -1,0 +1,45 @@
+<header>
+  <mat-toolbar>
+    <span>DocPatient</span>
+  </mat-toolbar>
+</header>
+<body>
+<mat-tab-group backgroundColor="accent">
+  <mat-tab label="All Rendez-vous">
+    <mat-accordion class="accordion" *ngFor="let rdv of this.userService.listRendezVous">
+      <mat-expansion-panel>
+        <mat-expansion-panel-header>
+          <mat-panel-title>
+            {{rdv.nameDoctor}}
+          </mat-panel-title>
+          <mat-panel-description>
+            {{rdv.description}}
+          </mat-panel-description>
+        </mat-expansion-panel-header>
+        <p>{{rdv.date}}</p>
+      </mat-expansion-panel>
+    </mat-accordion>
+  </mat-tab>
+  <mat-tab label="New Rendez-vous">
+
+    <form [formGroup]="doctorForm">
+      <p>
+        <mat-form-field  appearance="fill">
+          <mat-label>Select doctor</mat-label>
+          <mat-select>
+            <mat-option *ngFor="let doctor of this.userService.listDoctor" [value]="doctor.uid">{{doctor.name}}</mat-option>
+          </mat-select>
+        </mat-form-field>
+      </p>
+      <p>
+
+      </p>
+      <p>
+        <button mat-raised-button color="accent">Send</button>
+      </p>
+    </form>
+  </mat-tab>
+</mat-tab-group>
+</body>
+
+

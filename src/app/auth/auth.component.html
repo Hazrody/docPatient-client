@@ -1,0 +1,29 @@
+<p>
+  <mat-toolbar>
+    <span>DocPatient</span>
+  </mat-toolbar>
+</p>
+<form [formGroup]="authForm">
+  <p>
+    <mat-form-field appearance="fill">
+      <mat-label>Enter your email</mat-label>
+      <input matInput formControlName="email" required>
+    </mat-form-field>
+  </p>
+  <p>
+    <mat-form-field appearance="fill">
+      <mat-label>Enter your password</mat-label>
+      <input matInput formControlName="password" [type]="hide ? 'password' : 'text'">
+      <button mat-icon-button matSuffix (click)="hide = !hide" [attr.aria-label]="'Hide password'"
+              [attr.aria-pressed]="hide">
+        <mat-icon>{{hide ? 'visibility_off' : 'visibility'}}</mat-icon>
+      </button>
+    </mat-form-field>
+  </p>
+  <p>
+    <mat-error *ngIf="errorMessage">The password is invalid or the user does not have a password.</mat-error>
+  </p>
+  <p>
+    <button (click)="signIn()" mat-raised-button color="accent">Connect</button>
+  </p>
+</form>
