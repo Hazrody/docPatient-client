@@ -11,28 +11,39 @@ import {FormControl, FormGroup, Validators} from "@angular/forms";
   styleUrls: ['./homepage.component.css']
 })
 export class HomepageComponent implements OnInit {
-
+  today = new Date();
   doctorForm = new FormGroup({
-    doctor: new FormControl('', [Validators.required])
+    doctor: new FormControl('', [Validators.required]),
+    date: new FormControl('', [Validators.required]),
+    description: new FormControl('', [Validators.required])
   });
 
   constructor(private router: Router,
-              public userService: UserService,) {
+              public userService: UserService) {
   }
 
   ngOnInit(): void {
     if (this.userService.currentUser === null) {
-      this.router.navigateByUrl('');
+      this.router.navigateByUrl('').then();
     } else {
+      if (!('Notification' in window)) {
+        alert('Ce navigateur ne prend pas en charge la notification de bureau')
+      } else {
+        if (Notification.permission !== 'granted') {
+          Notification.requestPermission().then();
+        }
+      }
+
       this.userService.getUserRendezVous().subscribe(
         (r) => {
-          r.forEach(rdv=> {
+          this.userService.listRendezVous = [];
+          r.forEach(rdv => {
             // @ts-ignore
             this.userService.getUserByUid(rdv.data().uidDoctor).subscribe(
               r => {
                 r.forEach(doc => {
                   // @ts-ignore
-                  const newRdv = new RendezVous(rdv.data().id,rdv.data().uidClient,doc.data().name,rdv.data().description,rdv.data().date);
+                  const newRdv = new RendezVous(rdv.data().id, rdv.data().uidClient, doc.data().name, rdv.data().description, rdv.data().date);
                   this.userService.listRendezVous.push(newRdv);
                   console.log('Rendez-vous', doc.data());
                 });
@@ -44,7 +55,7 @@ export class HomepageComponent implements OnInit {
       );
       this.userService.getUserByRole('pro').subscribe(
         r => {
-          r.forEach(user=> {
+          r.forEach(user => {
             this.userService.listDoctor = [];
             // @ts-ignore
             const doctor = new User(user.data().uid, user.data().name, user.data().role);
@@ -53,6 +64,22 @@ export class HomepageComponent implements OnInit {
         }
       );
     }
+  }
+
+  createRendezVous() {
+    if (this.doctorForm.valid) {
+      this.userService.createNewRendezVous(
+        this.userService.currentUser.uid,
+        this.doctorForm.value.doctor,
+        this.doctorForm.value.description,
+        this.doctorForm.value.date,
+      ).then(r => {
+        const notification = new Notification('Nouveau rendez-vous créé');
+      }).catch(
+        error => console.error(error.message)
+      );
+    }
+
   }
 
 

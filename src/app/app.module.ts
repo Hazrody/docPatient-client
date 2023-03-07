@@ -18,10 +18,11 @@ import { HomepageComponent } from './homepage/homepage.component';
 import { AuthComponent } from './auth/auth.component';
 import {MatTabsModule} from "@angular/material/tabs";
 import {MatListModule} from "@angular/material/list";
-import {MatLineModule} from "@angular/material/core";
+import {MatLineModule, MatNativeDateModule} from "@angular/material/core";
 import {MatCardModule} from "@angular/material/card";
 import {MatExpansionModule} from "@angular/material/expansion";
 import {MatSelectModule} from "@angular/material/select";
+import {MatDatepickerModule} from "@angular/material/datepicker";
 
 @NgModule({
   declarations: [
@@ -47,7 +48,9 @@ import {MatSelectModule} from "@angular/material/select";
     MatLineModule,
     MatCardModule,
     MatExpansionModule,
-    MatSelectModule
+    MatSelectModule,
+    MatDatepickerModule,
+    MatNativeDateModule
   ],
   providers: [],
   bootstrap: [AppComponent]

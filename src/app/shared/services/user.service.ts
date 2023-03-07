@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import {Injectable} from '@angular/core';
 import {User} from "../models/user.model";
 import {AngularFirestore} from "@angular/fire/compat/firestore";
 import {RendezVous} from "../models/rendezVous.model";
@@ -10,20 +10,38 @@ export class UserService {
 
 
   // @ts-ignore
-  currentUser:User;
+  currentUser: User;
   // @ts-ignore
   listRendezVous: Array<RendezVous> = [];
   listDoctor: Array<User> = [];
-  constructor(private angularFireStore: AngularFirestore) { }
 
-  getUserRendezVous(){
+  constructor(private angularFireStore: AngularFirestore) {
+  }
+
+  getUserRendezVous() {
     return this.angularFireStore.collection('rendezVous', ref => ref.where("uidClient", "==", this.currentUser.uid)).get()
   }
+
   getUserByUid(uid: string) {
     return this.angularFireStore.collection('users', ref => ref.where("uid", "==", uid)).get()
   }
-  getUserByRole(role: string){
-    return this.angularFireStore.collection('users', ref => ref.where("role", "==", role)).get()
 
+  getUserByRole(role: string) {
+    return this.angularFireStore.collection('users', ref => ref.where("role", "==", role)).get()
+  }
+
+  // @ts-ignore
+  createNewRendezVous(uidClient,uidDoctor,description,date) {
+    return this.angularFireStore.collection('rendezVous').add({
+      "id": this.getRandomId(),
+      "uidClient": uidClient,
+      "uidDoctor": uidDoctor,
+      "description": description,
+      "date": date
+    });
+  }
+
+  getRandomId() {
+    return Math.floor((Math.random()*100)+100);
   }
 }
