@@ -26,13 +26,6 @@ export class HomepageComponent implements OnInit {
     if (this.userService.currentUser === null) {
       this.router.navigateByUrl('').then();
     } else {
-      if (!('Notification' in window)) {
-        alert('Ce navigateur ne prend pas en charge la notification de bureau')
-      } else {
-        if (Notification.permission !== 'granted') {
-          Notification.requestPermission().then();
-        }
-      }
 
       this.userService.getUserRendezVous().subscribe(
         (r) => {
@@ -73,8 +66,8 @@ export class HomepageComponent implements OnInit {
         this.doctorForm.value.doctor,
         this.doctorForm.value.description,
         this.doctorForm.value.date,
-      ).then(r => {
-        const notification = new Notification('Nouveau rendez-vous créé');
+      ).then(() => {
+
       }).catch(
         error => console.error(error.message)
       );
