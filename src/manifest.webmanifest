@@ -6,6 +6,7 @@
   "display": "standalone",
   "scope": "./",
   "start_url": "./",
+  "gsm_sender_id": "1082025757793",
   "icons": [
     {
       "src": "assets/icons/icon-72x72.png",

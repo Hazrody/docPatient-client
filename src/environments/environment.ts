@@ -7,6 +7,6 @@ export const environment = {
     storageBucket: "docpatient-1d8bb.appspot.com",
     messagingSenderId: "1082025757793",
     appId: "1:1082025757793:web:d1107fdfd1a9f360de2e20",
-    measurementId: "G-RW6LBC2VFM"
+    measurementId: "G-RW6LBC2VFM",
   }
 };

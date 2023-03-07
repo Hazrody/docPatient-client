@@ -6,6 +6,7 @@
 <body>
 <mat-tab-group backgroundColor="accent">
   <mat-tab label="All Rendez-vous">
+    {{ message | async | json }}
     <mat-accordion class="accordion" *ngFor="let rdv of this.userService.listRendezVous">
       <mat-expansion-panel>
         <mat-expansion-panel-header>

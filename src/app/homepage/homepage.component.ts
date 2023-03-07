@@ -4,6 +4,7 @@ import {UserService} from "../shared/services/user.service";
 import {User} from "../shared/models/user.model";
 import {RendezVous} from "../shared/models/rendezVous.model";
 import {FormControl, FormGroup, Validators} from "@angular/forms";
+import {MessagingService} from "../shared/services/messaging.service";
 
 @Component({
   selector: 'app-homepage',
@@ -12,6 +13,8 @@ import {FormControl, FormGroup, Validators} from "@angular/forms";
 })
 export class HomepageComponent implements OnInit {
   today = new Date();
+  // @ts-ignore
+  message;
   doctorForm = new FormGroup({
     doctor: new FormControl('', [Validators.required]),
     date: new FormControl('', [Validators.required]),
@@ -19,13 +22,17 @@ export class HomepageComponent implements OnInit {
   });
 
   constructor(private router: Router,
-              public userService: UserService) {
+              public userService: UserService,
+              private messagingService: MessagingService) {
   }
 
   ngOnInit(): void {
     if (this.userService.currentUser === null) {
       this.router.navigateByUrl('').then();
     } else {
+      this.messagingService.requestPermission();
+      this.messagingService.receiveMessaging();
+      this.message = this.messagingService.currentMessage
 
       this.userService.getUserRendezVous().subscribe(
         (r) => {

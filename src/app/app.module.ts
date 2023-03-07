@@ -24,6 +24,9 @@ import {MatExpansionModule} from "@angular/material/expansion";
 import {MatSelectModule} from "@angular/material/select";
 import {MatDatepickerModule} from "@angular/material/datepicker";
 import { ServiceWorkerModule } from '@angular/service-worker';
+import {AngularFireMessagingModule} from "@angular/fire/compat/messaging";
+import {MessagingService} from "./shared/services/messaging.service";
+import {AsyncPipe} from "@angular/common";
 
 @NgModule({
   declarations: [
@@ -41,6 +44,7 @@ import { ServiceWorkerModule } from '@angular/service-worker';
     MatToolbarModule,
     AngularFireModule.initializeApp(environment.firebase),
     AngularFirestoreModule,
+    AngularFireMessagingModule,
     AngularFireAuthModule,
     AngularFireStorageModule,
     AppRoutingModule,
@@ -59,7 +63,7 @@ import { ServiceWorkerModule } from '@angular/service-worker';
       registrationStrategy: 'registerWhenStable:30000'
     })
   ],
-  providers: [],
+  providers: [MessagingService,AsyncPipe],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
