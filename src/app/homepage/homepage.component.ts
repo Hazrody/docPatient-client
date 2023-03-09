@@ -55,8 +55,8 @@ export class HomepageComponent implements OnInit {
       );
       this.userService.getUserByRole('pro').subscribe(
         r => {
+          this.userService.listDoctor = [];
           r.forEach(user => {
-            this.userService.listDoctor = [];
             // @ts-ignore
             const doctor = new User(user.data().uid, user.data().name, user.data().role);
             this.userService.listDoctor.push(doctor);

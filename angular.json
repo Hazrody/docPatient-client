@@ -13,7 +13,7 @@
         "build": {
           "builder": "@angular-devkit/build-angular:browser",
           "options": {
-            "outputPath": "dist/doc-patient-client",
+            "outputPath": "dist/docPatient-client/browser",
             "index": "src/index.html",
             "main": "src/main.ts",
             "polyfills": [
@@ -23,6 +23,7 @@
             "assets": [
               "src/favicon.ico",
               "src/assets",
+              "src/firebase-messaging-sw.js",
               "src/manifest.webmanifest"
             ],
             "styles": [
@@ -98,6 +99,59 @@
             ],
             "scripts": []
           }
+        },
+        "server": {
+          "builder": "@angular-devkit/build-angular:server",
+          "options": {
+            "outputPath": "dist/docPatient-client/server",
+            "main": "server.ts",
+            "tsConfig": "tsconfig.server.json"
+          },
+          "configurations": {
+            "production": {
+              "outputHashing": "media"
+            },
+            "development": {
+              "optimization": false,
+              "sourceMap": true,
+              "extractLicenses": false,
+              "vendorChunk": true
+            }
+          },
+          "defaultConfiguration": "production"
+        },
+        "serve-ssr": {
+          "builder": "@nguniversal/builders:ssr-dev-server",
+          "configurations": {
+            "development": {
+              "browserTarget": "docPatient-client:build:development",
+              "serverTarget": "docPatient-client:server:development"
+            },
+            "production": {
+              "browserTarget": "docPatient-client:build:production",
+              "serverTarget": "docPatient-client:server:production"
+            }
+          },
+          "defaultConfiguration": "development"
+        },
+        "prerender": {
+          "builder": "@nguniversal/builders:prerender",
+          "options": {
+            "routes": [
+              "/"
+            ]
+          },
+          "configurations": {
+            "production": {
+              "browserTarget": "docPatient-client:build:production",
+              "serverTarget": "docPatient-client:server:production"
+            },
+            "development": {
+              "browserTarget": "docPatient-client:build:development",
+              "serverTarget": "docPatient-client:server:development"
+            }
+          },
+          "defaultConfiguration": "production"
         }
       }
     }

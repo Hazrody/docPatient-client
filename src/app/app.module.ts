@@ -35,7 +35,7 @@ import {AsyncPipe} from "@angular/common";
     AuthComponent
   ],
   imports: [
-    BrowserModule,
+    BrowserModule.withServerTransition({ appId: 'serverApp' }),
     BrowserAnimationsModule,
     MatInputModule,
     ReactiveFormsModule,
