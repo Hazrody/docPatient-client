@@ -15,6 +15,8 @@ export class HomepageComponent implements OnInit {
   today = new Date();
   // @ts-ignore
   message;
+  // @ts-ignore
+  deferredPrompt;
   doctorForm = new FormGroup({
     doctor: new FormControl('', [Validators.required]),
     date: new FormControl('', [Validators.required]),
@@ -33,7 +35,9 @@ export class HomepageComponent implements OnInit {
       this.messagingService.requestPermission();
       this.messagingService.receiveMessaging();
       this.message = this.messagingService.currentMessage
-
+      window.addEventListener('beforeinstallprompt', (e) => {
+        this.deferredPrompt = e;
+      });
       this.userService.getUserRendezVous().subscribe(
         (r) => {
           this.userService.listRendezVous = [];
@@ -45,7 +49,6 @@ export class HomepageComponent implements OnInit {
                   // @ts-ignore
                   const newRdv = new RendezVous(rdv.data().id, rdv.data().uidClient, doc.data().name, rdv.data().description, rdv.data().date);
                   this.userService.listRendezVous.push(newRdv);
-                  console.log('Rendez-vous', doc.data());
                 });
               }
             );
@@ -84,7 +87,19 @@ export class HomepageComponent implements OnInit {
         error => console.error(error.message)
       );
     }
+  }
 
+  async installApp() {
+    if (this.deferredPrompt !== undefined) {
+      console.log('Deferrend not null');
+      this.deferredPrompt.prompt();
+      const {outcome} = await this.deferredPrompt.userChoice;
+      if (outcome === 'accepted') {
+        this.deferredPrompt = null;
+      }
+    } else {
+      console.log("deferred prompt is null [Website cannot be installed]")
+    }
   }
 
 
