@@ -27,6 +27,7 @@ import { ServiceWorkerModule } from '@angular/service-worker';
 import {AngularFireMessagingModule} from "@angular/fire/compat/messaging";
 import {MessagingService} from "./shared/services/messaging.service";
 import {AsyncPipe} from "@angular/common";
+import { HttpClientModule } from '@angular/common/http';
 
 @NgModule({
   declarations: [
@@ -38,6 +39,7 @@ import {AsyncPipe} from "@angular/common";
     BrowserModule.withServerTransition({ appId: 'serverApp' }),
     BrowserAnimationsModule,
     MatInputModule,
+    HttpClientModule,
     ReactiveFormsModule,
     MatIconModule,
     MatButtonModule,

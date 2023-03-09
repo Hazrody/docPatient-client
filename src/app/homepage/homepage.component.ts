@@ -74,7 +74,12 @@ export class HomepageComponent implements OnInit {
         this.doctorForm.value.description,
         this.doctorForm.value.date,
       ).then(() => {
-
+        this.messagingService.postMessage(this.userService.currentUser.name).subscribe(
+          () => {
+            console.log('Message done');
+          },
+          error => console.log('error',error)
+        );
       }).catch(
         error => console.error(error.message)
       );
